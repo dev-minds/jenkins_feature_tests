@@ -26,7 +26,7 @@ pipeline {
     stages {
         stage('CRUD: CREATE'){
             when {
-                expression { params.CREATE_BUCKET = 'list_buckets' }
+                expression { params.CREATE_BUCKET != '' }
             }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
