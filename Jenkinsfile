@@ -30,7 +30,7 @@ pipeline {
             // }
             steps {
                 script{
-                    if( params.BUCKET_NAME != null && params.BUCKET_NAME != ''){
+                    if( params.BUCKET_NAME != ''){
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                             credentialsId: 'dm_aws_keys',
                             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
