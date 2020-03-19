@@ -30,7 +30,9 @@ pipeline {
             // }
             steps {
                 script{
-                    if( params.BUCKET_NAME != ''){
+                    if( params.BUCKET_NAME == ''){
+                        sh "echo 'no buckets to create'"
+                    }  else {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                             credentialsId: 'dm_aws_keys',
                             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -44,9 +46,7 @@ pipeline {
                                     sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}'"
                                 }
                             } 
-                        }
-                    }  else {
-                        sh "echo 'no buckets to create'"
+                        }                    
                     }
                 }
             }
