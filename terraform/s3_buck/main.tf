@@ -20,4 +20,6 @@ module "s3" {
   # https://github.com/hashicorp/terraform/issues/21606
   # source = "git::ssh://git@bitbucket.org/matchesfashion/terraform-modules.git//s3_bucket?ref=master"
   source = "git::https://github.com/dev-minds/tf_modules.git//fm_s3_mod?ref=master"
+
+  bucket_name = ""
 }
