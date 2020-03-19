@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-        stage('S3 MANAGEMENT'){
+        stage('LS BUCKETS'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
                 expression { 
@@ -62,6 +62,48 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 							sh "aws s3 ls --region ${env.AWS_REGION}"
+					} 
+				}
+            }
+        }
+
+        stage('UPDATE BUCKET POLICY'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+            when {
+                expression { 
+                    params.S3_MANAGEMENT == 'list_buckets' 
+                }
+            }
+            steps {
+                checkout scm 
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+							sh "echo 'Modifying Policies'"
+					} 
+				}
+            }
+        }
+
+        stage('DELETE BUCKET'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+            when {
+                expression { 
+                    params.S3_MANAGEMENT == 'list_buckets' 
+                }
+            }
+            steps {
+                checkout scm 
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+							sh "echo 'Deleting Bucket'"
 					} 
 				}
             }
