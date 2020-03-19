@@ -8,7 +8,7 @@ pipeline {
     environment {
         AWS_DEFAULT_REGION = 'eu-west-1'
 		AWS_REGION = "eu-west-1"
-        BUCKET = "${params.CREATE_S3_BUCKET}"
+        TF_VAR_bucket_name = "${params.CREATE_S3_BUCKET}"
     }
 
     options {
@@ -34,7 +34,7 @@ pipeline {
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
-                            sh "terraform apply -auto-approve -var='bucket_name=${env.BUCKET}'"
+                            sh "terraform apply -auto-approve -var ${env.TF_VAR_bucket_name}"
 						}
 					} 
 				}
