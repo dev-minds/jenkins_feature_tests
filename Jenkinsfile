@@ -44,8 +44,8 @@ pipeline {
                                 dir('./terraform/s3_buck'){
                                     sh "terraform init"
                                     sh "terraform fmt"
-                                    sh "terraform plan -out=plan.tfplan"
-                                    sh "terraform apply plan.tfplan -var 'bucket_name=${params.BUCKET_NAME}' -var 'region=${env.AWS_REGION}' "
+                                    sh "terraform plan "
+                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}' -var 'region=${env.AWS_REGION}' "
                                 }
                             } 
                         }                    
