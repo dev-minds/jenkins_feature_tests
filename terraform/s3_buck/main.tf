@@ -18,5 +18,5 @@ terraform {
 module "s3" {
   # https://github.com/hashicorp/terraform/issues/21606
   source = "git::https://github.com/dev-minds/tf_modules.git//fm_s3_mod?ref=master"
-  bucket_name = [var.bucket_name]
+//   bucket_name = [var.bucket_name]
 }
