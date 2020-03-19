@@ -43,7 +43,7 @@ pipeline {
                                     sh "terraform init"
                                     sh "terraform fmt"
                                     sh "terraform plan"
-                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}'"
+                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}' -var 'region="
                                 }
                             } 
                         }                    
@@ -112,6 +112,12 @@ pipeline {
 							sh "echo 'Deleting Bucket'"
 					} 
 				}
+            }
+        }
+        post {
+            always {
+                echo 'One way or another, I have finished'
+                deleteDir() /* clean up our workspace */
             }
         }
     }
