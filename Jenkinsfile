@@ -33,6 +33,8 @@ pipeline {
                     if( params.BUCKET_NAME == ''){
                         sh "echo 'no buckets to create'"
                     }  else {
+                        deleteDir() 
+                        checkout scm
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                             credentialsId: 'dm_aws_keys',
                             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
