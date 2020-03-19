@@ -33,6 +33,7 @@ pipeline {
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
+                            sh "terraform apply -auto-approve -var bucket_name=${params.CREATE_S3_BUCKET}"
 						}
 					} 
 				}
