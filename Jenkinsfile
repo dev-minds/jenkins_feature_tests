@@ -25,23 +25,29 @@ pipeline {
 
     stages {
         stage('CRUD: CREATE'){
-            when {
-                expression { params.CREATE_BUCKET != '' }
-            }
+            // when {
+            //     expression { params.CREATE_BUCKET != '' }
+            // }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'dm_aws_keys',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-                        dir('./terraform/s3_buck'){
-                            sh "terraform init"
-                            sh "terraform fmt"
-                            sh "terraform plan"
-                            sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
+                script{
+                    if( params.CREATE_BUCKET != null && params.CREATE_BUCKET != ''){
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                            credentialsId: 'dm_aws_keys',
+                            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                        ]]) {
+                            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                                dir('./terraform/s3_buck'){
+                                    sh "terraform init"
+                                    sh "terraform fmt"
+                                    sh "terraform plan"
+                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
+                                }
+                            } 
                         }
-                    } 
+                    }  else {
+                        sh "echo 'no buckets to create'"
+                    }
                 }
             }
         }
