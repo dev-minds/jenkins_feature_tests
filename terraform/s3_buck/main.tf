@@ -14,7 +14,6 @@ terraform {
   }
 }
 
-
 # CALL TARGET MODULE 
 module "s3" {
   # https://github.com/hashicorp/terraform/issues/21606
@@ -22,4 +21,5 @@ module "s3" {
   source = "git::https://github.com/dev-minds/tf_modules.git//fm_s3_mod?ref=master"
 
   bucket_name = ""
+
 }
