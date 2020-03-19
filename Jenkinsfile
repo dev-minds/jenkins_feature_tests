@@ -49,7 +49,9 @@ pipeline {
         stage('S3 MANAGEMENT'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
-                expression { params.S3_MANAGEMENT = list_buckets }
+                expression { 
+                    params.S3_MANAGEMENT == 'list_buckets' 
+                }
             }
             steps {
                 checkout scm 
