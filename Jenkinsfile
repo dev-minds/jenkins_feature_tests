@@ -46,8 +46,10 @@ pipeline {
                             } 
                         }
                     } 
+                }
             }
         }
+
         stage('S3 MANAGEMENT'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
@@ -67,4 +69,5 @@ pipeline {
             }
         }
     }
+  
 }
