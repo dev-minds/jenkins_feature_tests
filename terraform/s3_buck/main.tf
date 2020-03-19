@@ -21,5 +21,5 @@ module "s3" {
   # source = "git::ssh://git@bitbucket.org/matchesfashion/terraform-modules.git//s3_bucket?ref=master"
   source = "git::https://github.com/dev-minds/tf_modules.git//fm_s3_mod?ref=master"
 
-  bucket_name = ""
+  bucket_name = "dedjdoiejdeode-01"
 }

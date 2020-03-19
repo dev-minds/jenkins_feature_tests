@@ -1,15 +1,17 @@
 pipeline {
     agent any 
 
+    environment {
+        AWS_DEFAULT_REGION = 'eu-west-1'
+		AWS_REGION = "eu-west-1"
+        
+    }
+
     parameters {
         string(name: 'CREATE_S3_BUCKET', defaultValue: '', description: 'Specify a bucket name' )
     }
 
-    environment {
-        AWS_DEFAULT_REGION = 'eu-west-1'
-		AWS_REGION = "eu-west-1"
-        TF_VAR_bucket_name = "${params.CREATE_S3_BUCKET}"
-    }
+
 
     options {
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -34,7 +36,7 @@ pipeline {
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
-                            sh "terraform apply -auto-approve -var 'TF_VAR_bucket_name=${env.TF_VAR_bucket_name}'"
+                            sh "terraform apply -auto-approve -var 'bucket_name=params.CREATE_S3_BUCKET'"
 						}
 					} 
 				}
