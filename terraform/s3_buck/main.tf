@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket  = "dm-vpc-states"
-    key     = "on-prem/s3_test_finale.tfstates"
+    key     = "on-prem/s123_test_finale.tfstates"
     region  = "eu-west-1"
     encrypt = "true"
   }
