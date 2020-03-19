@@ -43,7 +43,7 @@ pipeline {
                                     sh "terraform init"
                                     sh "terraform fmt"
                                     sh "terraform plan -out=plan.out"
-                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}' -var 'region=${env.AWS_REGION}'"
+                                    sh "terraform apply -auto-approve plan.out -var 'bucket_name=${params.BUCKET_NAME}' -var 'region=${env.AWS_REGION}' "
                                 }
                             } 
                         }                    
