@@ -8,7 +8,8 @@ pipeline {
     }
 
     parameters {
-        string(name: 'CREATE_S3_BUCKET', defaultValue: '', description: 'Specify a bucket name' )
+        string(name: 'CREATE_BUCKET', defaultValue: '', description: 'Specify a bucket name' )
+        choice(name: 'S3_MANAGEMENT', choices: ['list_buckets', 'update', 'delete'], description: 'Manage S3')
     }
 
 
@@ -38,6 +39,24 @@ pipeline {
 							sh "terraform plan"
                             sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
 						}
+					} 
+				}
+            }
+        }
+        stage('S3 MANAGEMENT'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+            when {
+                expression { params.S3_MANAGEMENT == list_buckets }
+            }
+            steps {
+                checkout scm 
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+							sh "aws s3 ls --region ${env.AWS_REGION}"
 					} 
 				}
             }
