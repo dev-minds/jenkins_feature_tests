@@ -34,7 +34,7 @@ pipeline {
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
-                            sh "terraform apply -auto-approve -var 'bucket_name=${env.TF_VAR_bucket_name}'"
+                            sh "terraform apply -auto-approve -var 'TF_VAR_bucket_name=${env.TF_VAR_bucket_name}'"
 						}
 					} 
 				}
