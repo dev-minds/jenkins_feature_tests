@@ -3,3 +3,8 @@ variable "bucket_name" {
   type        = string
   default     = ""
 }
+
+variable "region" {
+   description = "Specify Region"
+   default    = ""
+}
