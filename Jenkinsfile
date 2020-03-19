@@ -25,25 +25,21 @@ pipeline {
 
     stages {
         stage('CRUD: CREATE'){
+            when {
+                expression { params.CREATE_BUCKET = 'list_buckets' }
+            }
             steps {
-                script {
-                    if (params.CREATE_BUCKET == null && params.CREATE_BUCKET == '') {
-                        checkout scm 
-                        sh "echo 'No Bucket To Create'"
-                    } else {
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                            credentialsId: 'dm_aws_keys',
-                            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-                            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                        ]]) {
-                            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-                                dir('./terraform/s3_buck'){
-                                    sh "terraform init"
-                                    sh "terraform fmt"
-                                    sh "terraform plan"
-                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
-                                }
-                            } 
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'dm_aws_keys',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                        dir('./terraform/s3_buck'){
+                            sh "terraform init"
+                            sh "terraform fmt"
+                            sh "terraform plan"
+                            sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
                         }
                     } 
                 }
@@ -53,7 +49,7 @@ pipeline {
         stage('S3 MANAGEMENT'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
-                expression { params.S3_MANAGEMENT == list_buckets }
+                expression { params.S3_MANAGEMENT = list_buckets }
             }
             steps {
                 checkout scm 
