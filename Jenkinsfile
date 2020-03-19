@@ -8,7 +8,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'CREATE_BUCKET', defaultValue: '', description: 'Specify a bucket name' )
+        string(name: 'BUCKET_NAME', defaultValue: '', description: 'Specify a bucket name' )
         choice(name: 'S3_MANAGEMENT', choices: ['list_buckets', 'update', 'delete'], description: 'Manage S3')
     }
 
@@ -30,7 +30,7 @@ pipeline {
             // }
             steps {
                 script{
-                    if( params.CREATE_BUCKET != null && params.CREATE_BUCKET != ''){
+                    if( params.BUCKET_NAME != null && params.BUCKET_NAME != ''){
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                             credentialsId: 'dm_aws_keys',
                             accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -41,7 +41,7 @@ pipeline {
                                     sh "terraform init"
                                     sh "terraform fmt"
                                     sh "terraform plan"
-                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.CREATE_S3_BUCKET}'"
+                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}'"
                                 }
                             } 
                         }
