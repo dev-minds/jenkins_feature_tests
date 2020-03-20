@@ -38,7 +38,7 @@ pipeline {
 					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-                            dir('./tg_test/${params.AWS_ACCT}'){
+                            dir("./tg_test/'${params.AWS_ACCT}'"){
 							    sh "terragrunt apply-all -auto-approve"
                             }
 					} 
