@@ -4,8 +4,6 @@ pipeline {
     environment {
         AWS_DEFAULT_REGION = 'eu-west-1'
 		AWS_REGION = "eu-west-1"
-        TF_LOG = "DEBUG"
-        
     }
 
     parameters {
