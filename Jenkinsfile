@@ -24,7 +24,7 @@ pipeline {
     }
 
     stages {
-        stage('LS BUCKETS'){
+        stage('TG WORKS'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
                 expression { 
