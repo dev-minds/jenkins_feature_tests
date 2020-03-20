@@ -39,7 +39,8 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                             dir("./tg_test/${params.AWS_ACCT}"){
-							    sh "terragrunt apply-all -auto-approve"
+                                sh ""
+							    sh "terragrunt apply-all -auto-approve --terragrunt-non-interactive"
                             }
 					} 
 				}
