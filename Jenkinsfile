@@ -9,6 +9,7 @@ pipeline {
     parameters {
         string(name: 'BUCKET_NAME', defaultValue: '', description: 'Specify a bucket name' )
         choice(name: 'S3_MANAGEMENT', choices: ['list_buckets', 'update', 'delete'], description: 'Manage S3')
+        choice(name: 'AWS_ACCT', choices: ['dm_acct', 'phelun_acct'], description: 'Specify target account')
     }
 
 
@@ -23,10 +24,34 @@ pipeline {
     }
 
     stages {
+        stage('LS BUCKETS'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+            when {
+                expression { 
+                    params.S3_MANAGEMENT == 'list_buckets' 
+                }
+            }
+            steps {
+                checkout scm 
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+                            dir('./tg_test/${params.AWS_ACCT}'){
+							    sh "terragrunt apply-all -auto-approve"
+                            }
+					} 
+				}
+            }
+        }
+
         stage('CRUD: CREATE'){
             // when {
             //     expression { params.CREATE_BUCKET != '' }
             // }
+            
             steps {
                 script{
                     if( params.BUCKET_NAME == ''){
