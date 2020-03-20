@@ -1,18 +1,17 @@
 pipeline {
     agent any 
 
-    environment {
-        AWS_DEFAULT_REGION = 'eu-west-1'
-		AWS_REGION = "eu-west-1"
-    }
-
     parameters {
         string(name: 'BUCKET_NAME', defaultValue: '', description: 'Specify a bucket name' )
         choice(name: 'S3_MANAGEMENT', choices: ['list_buckets', 'update', 'delete'], description: 'Manage S3')
         choice(name: 'AWS_ACCT', choices: ['dm_acct', 'phelun_acct'], description: 'Specify target account')
     }
 
-
+    environment {
+        AWS_DEFAULT_REGION = 'eu-west-1'
+		AWS_REGION = "eu-west-1"
+        TG_BUCKET_PREFIX = "${params.AWS_ACCT}"
+    }
 
     options {
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
