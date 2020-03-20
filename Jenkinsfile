@@ -10,7 +10,7 @@ pipeline {
     environment {
         AWS_DEFAULT_REGION = 'eu-west-1'
 		AWS_REGION = "eu-west-1"
-        TG_BUCKET_PREFIX = "${params.AWS_ACCT}"
+        TG_BUCKET_PREFIX = "dm-acct"
     }
 
     options {
