@@ -25,7 +25,6 @@ pipeline {
 
     stages {
         stage('TG WORKS'){
-			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
             when {
                 expression { 
                     params.S3_MANAGEMENT == 'list_buckets' 
