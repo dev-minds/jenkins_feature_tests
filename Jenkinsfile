@@ -67,10 +67,11 @@ pipeline {
                         ]]) {
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
                                 dir('./terraform/s3_buck'){
-                                    sh "terraform init"
-                                    sh "terraform fmt"
-                                    sh "terraform plan "
-                                    sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}' "                                }
+                                    // sh "terraform init"
+                                    // sh "terraform fmt"
+                                    // sh "terraform plan "
+                                    // sh "terraform apply -auto-approve -var 'bucket_name=${params.BUCKET_NAME}' "    
+                                    sh "echo 'TESTING'"                            }
                             } 
                         }                    
                     }
