@@ -1,10 +1,12 @@
+@Library('jk_shared_lib@master') _
+
 pipeline {
     agent any 
-
+    
     parameters {
+        choice(name: 'AWS_ACCT', choices: ['dm_acct', 'phelun_acct'], description: 'Specify target account')
         string(name: 'BUCKET_NAME', defaultValue: '', description: 'Specify a bucket name' )
         choice(name: 'S3_MANAGEMENT', choices: ['list_buckets', 'update', 'delete'], description: 'Manage S3')
-        choice(name: 'AWS_ACCT', choices: ['dm_acct', 'phelun_acct'], description: 'Specify target account')
     }
 
     environment {
@@ -144,6 +146,12 @@ pipeline {
             echo 'One way or another, I have finished'
             deleteDir() /* clean up our workspace */
         }
+		success {
+			slackSend baseUrl: 'https://xxxxxxxxxxxxhhhhjjk/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'good', message: ":terraform: Terraform pipeline *finished successfully* :white_check_mark:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`\n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
+		}
+		failure {
+			slackSend baseUrl: 'https://xxxxxxxxxxnjhdjjjjj/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'danger', message: ":terraform: Terraform pipeline *failed* :x:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`  \n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
+		}
     }
   
 }

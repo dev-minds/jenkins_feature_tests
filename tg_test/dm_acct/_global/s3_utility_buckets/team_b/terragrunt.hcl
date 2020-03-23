@@ -13,7 +13,7 @@ include {
 }
 
 inputs = {
-    bucket_name     = "team-b-dminds-qa-bucket-tftg-existing-things-of-bucket"
+    bucket_name     = "team-b-dminds-qa-bucket-tftg-existing-things-of-bucket-covid19b"
     force_destroy   = "true"
     versionnig      = "false" 
 }
