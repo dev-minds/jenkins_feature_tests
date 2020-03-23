@@ -147,12 +147,12 @@ pipeline {
             echo 'One way or another, I have finished'
             deleteDir() /* clean up our workspace */
         }
-		success {
-			slackSend baseUrl: 'https://xxxxxxxxxxxxhhhhjjk/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'good', message: ":terraform: Terraform pipeline *finished successfully* :white_check_mark:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`\n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
-		}
-		failure {
-			slackSend baseUrl: 'https://xxxxxxxxxxnjhdjjjjj/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'danger', message: ":terraform: Terraform pipeline *failed* :x:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`  \n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
-		}
+		// success {
+		// 	slackSend baseUrl: 'https://xxxxxxxxxxxxhhhhjjk/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'good', message: ":terraform: Terraform pipeline *finished successfully* :white_check_mark:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`\n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
+		// }
+		// failure {
+		// 	slackSend baseUrl: 'https://xxxxxxxxxxnjhdjjjjj/services/hooks/jenkins-ci/', channel: '#ci', tokenCredentialId: 'slack', color: 'danger', message: ":terraform: Terraform pipeline *failed* :x:\n>*Service:* `${env.UPSTREAM}` \n>*Account:* `${env.ACCOUNT}` \n>*Version*: `${env.VERSION}` \n>*ami-id*: `${env.AMIID}`  \n>*Duration*: ${currentBuild.durationString.replaceAll('and counting','')}"
+		// }
     }
   
 }
